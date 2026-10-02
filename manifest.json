@@ -1,0 +1,53 @@
+{
+  "manifest_version": 3,
+  "name": "Saved Shelf",
+  "version": "1.0.0",
+  "description": "Find the videos and posts you saved across YouTube, Instagram, Facebook, TikTok, Xiaohongshu, Threads and more. Tag them by topic, search them, ask AI about them. Data stays in your browser.",
+  "action": {
+    "default_title": "Open Saved Shelf"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "storage",
+    "unlimitedStorage",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://www.youtube.com/*",
+    "https://www.instagram.com/*",
+    "https://www.facebook.com/*",
+    "https://www.tiktok.com/*",
+    "https://www.xiaohongshu.com/*",
+    "https://www.threads.com/*",
+    "https://www.threads.net/*",
+    "https://i.ytimg.com/*",
+    "https://*.fbcdn.net/*",
+    "https://*.cdninstagram.com/*",
+    "https://*.tiktokcdn.com/*",
+    "https://*.tiktokcdn-us.com/*",
+    "https://*.xhscdn.com/*",
+    "https://api.anthropic.com/*",
+    "https://api.openai.com/*",
+    "https://api.deepseek.com/*",
+    "https://generativelanguage.googleapis.com/*",
+    "https://openrouter.ai/*",
+    "https://api.groq.com/*",
+    "https://api.mistral.ai/*",
+    "https://x.com/*",
+    "https://twitter.com/*",
+    "https://pbs.twimg.com/*",
+    "https://video.twimg.com/*"
+  ],
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "optional_host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ]
+}

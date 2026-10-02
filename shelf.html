@@ -1,0 +1,30 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Saved Shelf</title><link rel="icon" href="icon48.png"><link rel="stylesheet" href="shelf.css"></head><body>
+<div class="app">
+  <aside>
+    <div><h1>Saved Shelf</h1><p class="lede">Everything you saved, across platforms, tagged by topic.</p></div>
+    <input id="q" type="search" placeholder="Search titles or channels" aria-label="Search titles or channels">
+    <div><p class="lbl">Source</p><div class="seg" id="srcSeg"></div></div>
+    <div class="toggles"><button class="tg" id="wl" aria-pressed="false">Watch later<span>▸</span></button><button class="tg" id="sh" aria-pressed="false">Under 2 minutes<span>▸</span></button><button class="tg" id="nr" aria-pressed="false">Needs tagging / review<span>▸</span></button><button class="tg" id="dd" aria-pressed="false">Dead links<span>▸</span></button><button class="tg" id="rm" aria-pressed="false">Removed<span>▸</span></button></div>
+    <div><div class="lblrow"><p class="lbl">Topics</p><label class="sortsel"><span class="sr">Order topics</span><select id="tsort"><option value="group">Grouped</option><option value="count">Most items</option><option value="az">A–Z</option><option value="mine">My order</option></select></label></div><p class="hint" id="mineHint" hidden>Drag ☰ to move a topic. Your order is kept in this browser.</p><div class="taglist" id="tags"></div></div>
+    <div id="syncbox"><p class="lbl">Sync saved items</p>
+      <div class="tools" id="syncBtns"></div>
+      <label class="fullrow"><input type="checkbox" id="full"> Full sync (Facebook: ignore "already seen")</label>
+      <div class="tools"><button id="tagNow">Tag new items</button><button id="scan">Check dead links</button><button id="cfg">Settings</button></div>
+      <div class="stat" id="stat"></div></div>
+    <div class="tools"><button id="imp">Import JSON</button><button id="exp">Export JSON</button><input id="file" type="file" accept=".json,application/json" hidden></div>
+    <p class="note">Everything is stored locally in this browser. Nothing is uploaded except the text sent to the AI provider you choose.</p>
+  </aside>
+  <button class="resizer" id="resizer" aria-label="Resize side panel (arrow keys; double-click to reset)" title="Drag to resize · double-click to reset"></button>
+  <main>
+    <div class="top"><button id="askBtn" class="askbtn" title="Ask questions about your saved items">Ask AI</button>
+      <span id="count"></span>
+      <div id="active"></div>
+      <div class="view" role="group" aria-label="View">
+        <button id="vTiles" aria-pressed="true"><svg viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>Tiles</button>
+        <button id="vList" aria-pressed="false"><svg viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="2" width="14" height="2" rx="1"/><rect x="1" y="7" width="14" height="2" rx="1"/><rect x="1" y="12" width="14" height="2" rx="1"/></svg>List</button>
+      </div>
+    </div>
+    <div id="out"></div>
+  </main>
+</div><aside id="chat" aria-label="Ask AI about your saved items"><div class="chathead"><strong>Ask your shelf</strong><span class="chatbtns"><button id="chatSave" title="Download this chat as a Markdown file">Save .md</button><button id="chatClear">Clear</button><button id="chatClose" aria-label="Close">×</button></span></div><div id="chatLog"></div><div class="chatin"><textarea id="chatIn" rows="2" placeholder="Ask about your saved videos and posts... (Enter to send)"></textarea><button id="chatSend" class="pri">Send</button></div></aside>
+<script src="taxonomy.js"></script><script src="ids.js"></script><script src="db.js"></script><script src="llm.js"></script><script src="sources.js"></script><script src="settings.js"></script><script src="shelf.js"></script><script src="chat.js"></script></body></html>

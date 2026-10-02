@@ -1,0 +1,8 @@
+# never commit personal exports or keys
+*.json.bak
+saved-shelf-*.json
+saved-shelf-chat-*.md
+data/
+.env
+*.key
+node_modules/
