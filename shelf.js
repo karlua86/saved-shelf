@@ -40,6 +40,18 @@ function cover(v){
   if(v.dead)a.append(el("span","wlb dead","Dead link"));else if(v.wl)a.append(el("span","wlb","Watch later"));
   a.setAttribute("aria-label",v.t);
   return a}
+function copyBtn(v){
+  if(!v.url)return null;
+  const ICON='<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5"/><path d="M10.5 3.5v-.5A1.5 1.5 0 0 0 9 1.5H4A1.5 1.5 0 0 0 2.5 3v5A1.5 1.5 0 0 0 4 9.5h.5"/></svg>';
+  const OK='<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.5"/></svg>';
+  const b=el("button","cpy");b.type="button";b.title="Copy link";b.setAttribute("aria-label","Copy link");b.innerHTML=ICON;
+  b.onclick=async e=>{
+    e.preventDefault();e.stopPropagation();
+    try{await navigator.clipboard.writeText(v.url)}catch(err){const ta=document.createElement("textarea");ta.value=v.url;document.body.append(ta);ta.select();document.execCommand("copy");ta.remove()}
+    b.innerHTML=OK;b.classList.add("done");b.title="Copied!";clearTimeout(b._t);
+    b._t=setTimeout(()=>{b.innerHTML=ICON;b.classList.remove("done");b.title="Copy link"},1400);
+  };
+  return b}
 function chips(v){const c=el("div","chips");v.tags.forEach(t=>{const b=el("button","chip");b.style.setProperty("--h",HUE[t]);b.append((EMO[t]||"🏷️")+" ",el("i"),t);b.setAttribute("aria-pressed",st.tags.has(t));b.onclick=()=>toggleTag(t);c.append(b)});const ed=el("button","chip","✎ Edit");ed.title="Edit topics";ed.onclick=()=>editTags(v);c.append(ed);return c}
 function render(){
   save();
@@ -67,11 +79,11 @@ function render(){
   let box;
   if(st.view==="tiles"){
     box=el("div","grid");
-    shown.forEach(v=>{const t=el("div","tile");t.append(cover(v));const m=el("div","meta");m.append(el("div","ch",v.ch||v.src));m.append(chips(v));t.append(m);box.append(t)});
+    shown.forEach(v=>{const t=el("div","tile");t.append(cover(v));const m=el("div","meta");const cr=el("div","chrow");cr.append(el("div","ch",v.ch||v.src));const cb=copyBtn(v);if(cb)cr.append(cb);m.append(cr);m.append(chips(v));t.append(m);box.append(t)});
   }else{
     box=el("div","list");
     const h=el("div","row lhead");["","Title","Channel","Topics","Length"].forEach((x,i)=>{const c=el("span","c"+i,x);if(i===4)c.className="d";h.append(c)});box.append(h);
-    shown.forEach(v=>{const r=el("div","row");r.append(cover(v));const tc=el("div","c1");const a=el(v.url?"a":"span","t",v.t);if(v.url){a.href=v.url;a.target="_blank";a.rel="noopener"}tc.append(a);tc.append(el("div","s",v.src+(v.wl?" · Watch later":"")+(v.where&&v.where.length?" · "+v.where.join(", "):"")));r.append(tc);r.append(el("div","s c3",v.ch||""));const c4=chips(v);c4.classList.add("c4");r.append(c4);r.append(el("div","d",v.len==="short"?"Short":(v.len||v.kind||"")));box.append(r)});
+    shown.forEach(v=>{const r=el("div","row");r.append(cover(v));const tc=el("div","c1");const a=el(v.url?"a":"span","t",v.t);if(v.url){a.href=v.url;a.target="_blank";a.rel="noopener"}tc.append(a);tc.append(el("div","s",v.src+(v.wl?" · Watch later":"")+(v.where&&v.where.length?" · "+v.where.join(", "):"")));{const cb2=copyBtn(v);if(cb2)tc.append(cb2)}r.append(tc);r.append(el("div","s c3",v.ch||""));const c4=chips(v);c4.classList.add("c4");r.append(c4);r.append(el("div","d",v.len==="short"?"Short":(v.len||v.kind||"")));box.append(r)});
   }
   const frag=[box];
   if(rows.length>st.limit){const m=el("button","more","Show "+Math.min(120,rows.length-st.limit)+" more of "+(rows.length-st.limit));m.onclick=()=>{st.limit+=120;render()};frag.push(m)}

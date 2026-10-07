@@ -184,3 +184,11 @@ body.chatopen main{margin-right:min(460px,94vw)}
 .cust button{grid-row:1;grid-column:3;border:1px solid var(--line);background:transparent;border-radius:8px;width:34px}
 /* external-link marker drawn as an icon (no font dependency) */
 .msg a::after{content:"";display:inline-block;width:.7em;height:.7em;margin-left:3px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M4 1h7v7M11 1 3 9' fill='none' stroke='black' stroke-width='1.6'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M4 1h7v7M11 1 3 9' fill='none' stroke='black' stroke-width='1.6'/%3E%3C/svg%3E") center/contain no-repeat;font-size:inherit}
+
+/* copy-link button */
+.chrow{display:flex;align-items:center;justify-content:space-between;gap:6px;min-width:0}
+.chrow .ch{flex:1;min-width:0}
+.cpy{flex:none;border:0;background:transparent;color:var(--muted);padding:3px 6px;border-radius:6px;display:inline-flex;align-items:center;line-height:0}
+.cpy:hover{background:var(--chip);color:var(--fg)}
+.cpy.done{color:var(--wl)}
+.row .cpy{margin-top:4px}
