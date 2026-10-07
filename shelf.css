@@ -192,3 +192,6 @@ body.chatopen main{margin-right:min(460px,94vw)}
 .cpy:hover{background:var(--chip);color:var(--fg)}
 .cpy.done{color:var(--wl)}
 .row .cpy{margin-top:4px}
+/* bigger topic-group headings in the side panel */
+.grp{font:700 14px var(--display);color:var(--fg);letter-spacing:0;margin:18px 8px 4px}
+.grp:first-child{margin-top:4px}
