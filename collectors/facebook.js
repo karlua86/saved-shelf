@@ -56,13 +56,16 @@ function newCards(){
 async function run(opts){
   opts=opts||{};
   if(!/\/saved/.test(location.pathname))return{complete:false,error:"Open facebook.com/saved first.",total:0};
+  if(/[?&]list_id=/.test(location.search))return{complete:false,error:"You are on a single collection page. Open facebook.com/saved (All saved items) and try again.",total:0};
   const full=opts.mode==="full",known=new Set(opts.known||[]);
-  const seen=new Set();let buf=[],total=0,knownRun=0,stall=0,error=null,complete=false,newCount=0;
+  const seen=new Set();let buf=[],total=0,knownRun=0,stall=0,error=null,complete=false,newCount=0,hiddenWaits=0,lastCard=null;
   const flush=async()=>{if(buf.length){const items=buf;buf=[];await chrome.runtime.sendMessage({type:"shelf-items",src:"Facebook",items})}};
   window.scrollTo(0,0);await sleep(800);
   for(let loop=0;loop<3000;loop++){
     if(/This page isn.t available|Something went wrong/i.test((document.body.innerText||"").slice(0,1500))&&!(document.body.innerText||"").includes("Add to collection")){error="Facebook page crashed. Partial results saved.";break}
+    if(document.hidden&&hiddenWaits<300){hiddenWaits++;send({type:"shelf-progress",src:"Facebook",msg:`${total} read - PAUSED: bring the Facebook tab to the front (Facebook won't load more while it's hidden)`});await sleep(2000);continue}
     const cs=newCards();let added=0;
+    if(cs.length)lastCard=cs[cs.length-1];
     for(const card of cs){
       const it=parseCard(card);if(!it)continue;
       const id=idOf(it);if(seen.has(id))continue;seen.add(id);
@@ -74,11 +77,13 @@ async function run(opts){
     if(!full&&knownRun>=25){complete=true;break}
     if(cs.length===0)stall++;else stall=0;
     if(stall>=8){complete=true;break}
+    if(lastCard&&lastCard.isConnected)lastCard.scrollIntoView({block:"end"}); // works for any scroll container
     window.scrollTo(0,document.documentElement.scrollHeight);
     await sleep(1300+stall*1500);
     if(stall>=3){window.scrollTo(0,0);await sleep(700);window.scrollTo(0,document.documentElement.scrollHeight)}
   }
   await flush();
+  if(!total&&!error)error="No saved items found. Open facebook.com/saved (the All view, not a collection), keep the tab visible and in front, and try again.";
   return{complete:false,reachedEnd:complete,total,error};
 }
 window.__shelfRun=run;

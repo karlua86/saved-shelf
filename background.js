@@ -28,7 +28,7 @@ async function getTab(def){
   let tab=tabs[0];
   if(!tab)tab=await chrome.tabs.create({url:def.start,active:true});
   else{
-    const needNav=def.needPath&&!(tab.url||"").includes(def.needPath);
+    const needNav=def.needPath&&(!(tab.url||"").includes(def.needPath)||(def.noQuery&&(tab.url||"").includes(def.noQuery+"=")));
     tab=await chrome.tabs.update(tab.id,needNav?{url:def.start,active:true}:{active:true});
   }
   await chrome.windows.update(tab.windowId,{focused:true}).catch(()=>{});

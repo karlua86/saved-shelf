@@ -3,7 +3,7 @@
 const BUILTIN_SOURCES=[
   {name:"YouTube",match:["*://www.youtube.com/*"],start:"https://www.youtube.com/feed/playlists",file:"collectors/youtube.js",complete:true,check:"youtube",on:true},
   {name:"Instagram",match:["*://www.instagram.com/*"],start:"https://www.instagram.com/",file:"collectors/instagram.js",complete:true,check:"instagram",on:true},
-  {name:"Facebook",match:["*://www.facebook.com/*"],start:"https://www.facebook.com/saved/",file:"collectors/facebook.js",needPath:"/saved",check:"facebook",on:true},
+  {name:"Facebook",match:["*://www.facebook.com/*"],start:"https://www.facebook.com/saved/",file:"collectors/facebook.js",needPath:"/saved",noQuery:"list_id",check:"facebook",on:true},
   {name:"TikTok",match:["*://www.tiktok.com/*"],start:"https://www.tiktok.com/",file:"collectors/generic.js",
     preset:{linkSel:'a[href*="/video/"]',authorFromHref:"/@([^/]+)/video/",
       steps:[{click:'[data-e2e="nav-profile"]',wait:3000},{clickText:"^(Favou?rites|收藏)$",wait:3000}]}},
